@@ -1,19 +1,23 @@
 import { Express } from "express";
-import { Observable, Subject } from 'rxjs';
+import { Observable, ReplaySubject, Subject } from 'rxjs';
 import { MongoClient, MongoError, Db } from "mongodb";
 
 export class MongoDataContext {
 
-    private _app: Express;
-    constructor(app: Express) { this._app = app; }
+    constructor(private readonly _app: Express) { }
 
-    public get client$(): Observable<Db> {
-        let clientSubject = new Subject<Db>();
-        MongoClient.connect('mongodb://localhost:27017/angular-quest', (err: MongoError, client: MongoClient) => {
-            if (err) { throw err; }
-            clientSubject.next(client.db('angular-quest'));
-        });
-        return clientSubject.asObservable();
+    private _db: Db;
+    private readonly _dbSubject = new ReplaySubject<Db>();
+
+    public get client$() {
+        if (this._db === undefined) {
+            MongoClient.connect('mongodb://localhost:27017/angular-quest', { useNewUrlParser: true, keepAlive: true }, (err: MongoError, client: MongoClient) => {
+                if (err) { throw err; }
+                this._db = client.db('angular-quest');
+                this._dbSubject.next(this._db);
+            });
+        }
+        return this._dbSubject.asObservable();
     }
 
     public get stats$(): Observable<any> {
