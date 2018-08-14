@@ -1,0 +1,94 @@
+<div class="jumbotron">
+  <div class="container">
+    <h1 class="display-3">Project Component!</h1>
+    <p>
+      Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy
+      text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+    </p>
+    <p>
+      <a [routerLink]="'/project/new'" class="btn btn-primary btn-lg" role="button" style="color: white;">Create New Project
+        &raquo;</a>&nbsp;
+      <a *ngIf="isCollectionEmpty" (click)="insertInitialRecords();" class="btn btn-success btn-lg" role="button" style="color: white;">Insert
+        Initial Records &raquo;</a>
+
+    </p>
+  </div>
+</div>
+
+<div class="container">
+
+  <div *ngIf="searchComplete" class="row">
+    <div class="col-lg-12">
+      <form>
+        <div class="form-row align-items-center">
+          <div class="col-auto">
+            <label class="sr-only" for="inlineFormInputGroup">Search in results...</label>
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text">@</div>
+              </div>
+              <input type="text" class="form-control" id="txt-search" (input)="filterSubject.next($event.target.value)" placeholder="Search in results...">
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-12">
+      <table class="table" style="border: solid 1px #EEE;">
+        <thead>
+          <tr style="background-color: #F6F6F6;">
+            <th scope="col">#</th>
+            <th scope="col">Name</th>
+            <th scope="col">Description</th>
+            <th scope="col">Author</th>
+            <th scope="col">Enabled</th>
+            <th scope="col">Creation Date</th>
+            <th scope="col" style="text-align: center;">Options</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="!searchComplete">
+          <tr>
+            <td colspan="7">Loading...</td>
+          </tr>
+        </tbody>
+        <tbody *ngIf="isCollectionEmpty">
+          <tr>
+            <td colspan="7">Project collection is empty!</td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr *ngFor="let project of projectList | async">
+            <th scope="row">
+              <a [routerLink]="'/project/' + project.code">{{project.code}}</a>
+            </th>
+            <td>
+              <span>{{project.name}}</span>
+            </td>
+            <td>
+              <span>{{project.description}}</span>
+            </td>
+            <td>
+              <span>{{project.author}}</span>
+            </td>
+            <td>
+              <span>{{project.enabled ? 'Yes' : 'No'}}</span>
+            </td>
+            <td>
+              <span>{{project.creationDate | date}}</span>
+            </td>
+            <td style="text-align: center;">
+              <button (click)="DeleteProject(project.code)" type="button" class="btn mr-1 btn-sm btn-outline-danger"><i class="fas fa-trash-alt"></i></button>
+              <button [routerLink]="'/project/'+ project.code" type="button" class="btn mr-1 btn-sm btn-outline-secondary"><i
+                  class="fas fa-edit"></i></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <hr>
+</div>
