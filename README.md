@@ -4,8 +4,8 @@ This is a sample project to be used during the demonstration of the fundamentals
 ## Gearing up for the execution
 > Visual Studio Code `https://code.visualstudio.com/`   
 > Commander `http://cmder.net/`   
-> MongoDB Community Server `https://www.mongodb.com/download-center?jmp=nav#community`      
-> Postman `https://www.getpostman.com/`   
+> Postman `https://www.getpostman.com/`     
+> MongoDB Community Server `https://www.mongodb.com/download-center?jmp=nav#community`     
 
 ## Getting Started
 **01.** Install MongoDB Community server  
@@ -18,7 +18,7 @@ This is a sample project to be used during the demonstration of the fundamentals
 **06.** Run the command "`npm run build`"   
 **07.** Run the command "`npm run debug`"   
 **08.** Open `Postman` and execute a POST request to the url: "`http://localhost:3000/project/all`"   
-**09.** You still have no data on the database but sould get a response from API similar to this:
+**09.** You still have no data on the database but should get a response from the API similar to this:
 ```javascript
 {
     "success": true,
